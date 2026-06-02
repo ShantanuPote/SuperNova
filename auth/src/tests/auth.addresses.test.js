@@ -49,7 +49,7 @@ const extractAddressId = (address) => address?.id || address?._id || address?.ad
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create({
-    instance: { dbName: 'jest-auth' }
+    instance: { dbName: 'jest-auth', launchTimeout: 60000 }
   });
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);

@@ -14,7 +14,7 @@ jest.setTimeout(60000);
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create({
-    instance: { dbName: 'jest-auth' },
+    instance: { dbName: 'jest-auth', launchTimeout: 60000 },
     // binary: { version: '6.0.5' }
   });
   const uri = mongoServer.getUri();

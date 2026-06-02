@@ -24,7 +24,7 @@ const registerPayload = {
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create({
-    instance: { dbName: 'jest-auth' }
+    instance: { dbName: 'jest-auth', launchTimeout: 60000 }
   });
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);
