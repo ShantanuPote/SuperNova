@@ -4,7 +4,7 @@ const { uploadImage } = require('../services/imagekit.service');
 
 async function createProduct(req, res) {
   try{
-    const {title, description, priceAmount, priceCurrency = "INR"} = req.body;
+    const {title, description, priceAmount, priceCurrency = "INR",stock} = req.body;
 
     if (!title || !priceAmount) {
       return res.status(400).json({ message: 'Title and priceAmount are required' });
@@ -30,6 +30,7 @@ async function createProduct(req, res) {
       price,
       seller,
       image: images,
+      stock
     })
 
      return res.status(201).json({

@@ -5,8 +5,8 @@ const cartSchema =new  mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    items:{
-        productID:{
+    items:[{
+        productId:{
            type: mongoose.Schema.Types.ObjectId,
             required: true
         },
@@ -15,8 +15,8 @@ const cartSchema =new  mongoose.Schema({
             min:1,
             required:true
         }
-    }
-},{timestamp: true});
+    }]
+},{timestamps: true});
 
 const cartModel = mongoose.model("cart",cartSchema);
 

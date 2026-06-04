@@ -4,7 +4,7 @@ const cartModel = require("../models/cart.model");
 async function getCart(req, res){
     const user = req.user;
     
-    let cart = await cartModel.findOne({ user: user._id});
+    let cart = await cartModel.findOne({ user: user.id});
 
     if(!cart){
         cart = new cartModel({user: user.id, items: []});
@@ -27,10 +27,10 @@ async function addItemToCart(req, res){
 
         const user = req.user;
 
-        let cart = await cartModel.findOne({ user: user._id});
+        let cart = await cartModel.findOne({ user: user.id});
 
         if(!cart){
-           cart = new cartModel({ user: user._id, items: []});
+           cart = new cartModel({ user: user.id, items: []});
         }
 
         const existingItemIndex = cart.items.findIndex(item => item.productId.toString() === productId);
@@ -63,7 +63,7 @@ async function updateItemQuantity(req, res){
     
     const user = req.user;
 
-    const cart = await cartModel.findOne({user: user._id});
+    const cart = await cartModel.findOne({user: user.id});
 
     if(!cart){
         return res.status(404).json({message: "Cart not found"});
@@ -86,7 +86,7 @@ async function deleteItemFromCart(req, res){
 
         const user= req.user;
 
-        const cart = await cartModel.findOne({ user: user._id});
+        const cart = await cartModel.findOne({ user: user.id});
 
         if(!cart){
             return res.status(404).json({message: "cart not found"})
@@ -120,7 +120,7 @@ async function deleteCart(req, res){
     try{
         const user= req.user;
 
-        const cart = await cartModel.findOne({ user: user._id});
+        const cart = await cartModel.findOne({ user: user.id});
 
 
         if(!cart){
