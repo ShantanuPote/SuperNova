@@ -1,4 +1,4 @@
-const { subscribeToQueue } = require("./borker");
+const { subscribeToQueue } = require("./broker");
 const { sendEmail } = require("../email");
 
 

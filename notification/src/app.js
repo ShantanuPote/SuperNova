@@ -1,6 +1,6 @@
 const express = require("express");
-const { connect, subscribeToQueue } = require("./borker/borker");
-const setListeners = require("./borker/listners");
+const { connect, subscribeToQueue } = require("./broker/broker");
+const setListeners = require("./broker/listners");
 const app = express();
 
 connect().then(() => {

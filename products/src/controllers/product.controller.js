@@ -1,5 +1,6 @@
-const { productModel } = require('../models/product.model');
+const productModel  = require('../models/product.model');
 const { uploadImage } = require('../services/imagekit.service');
+const {publisToQueue, publishToQueue} = require('../broker/broker')
 
 
 async function createProduct(req, res) {
@@ -32,6 +33,14 @@ async function createProduct(req, res) {
       image: images,
       stock
     })
+
+    await publishToQueue("PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED", product)
+    await publishToQueue("PRODUCT_NOTIFICATION.PRODUCT_CREATED", {
+            email: req.user.email,
+            productId: product._id,
+            sellerId: seller,
+            username: req.user.username
+        });
 
      return res.status(201).json({
       messages: 'Product created',
@@ -116,7 +125,7 @@ async function updateProduct(req, res){
   const allowedUpdates = ['price','description', 'price']
 
   for(const key of Object.keys(req.body)){
-    if(allowedUpadtes.includes(keys)){
+    if(allowedUpdates.includes(key)){
       if(key === 'price' && typeof req.body.price === 'object'){
         if(req.body.price.amount !== undefined){
           product.price.amount = Number(req.body.price.amount);

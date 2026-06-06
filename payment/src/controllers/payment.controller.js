@@ -1,6 +1,6 @@
 const paymentModel = require('../models/payment.model');
 const axios = require('axios');
-const { publishToQueue } = require("../borker/borker.js")
+const { publishToQueue } = require("../broker/broker.js")
 
 
 require('dotenv').config();
@@ -96,7 +96,7 @@ async function verifyPayment(req, res) {
                 paymentId: payment.paymentId,
                 amount: payment.price.amount / 100,
                 currency: payment.price.currency,
-                fullName: req.user.fullName
+                username: req.user.username
             }
         )
 
