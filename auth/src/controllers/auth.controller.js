@@ -2,6 +2,7 @@ const userModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const redis = require('../db/redis')
+const { publishToQueue } = require("../borker/borker")
 
 async function registerUser(req, res) {
     try{
@@ -27,6 +28,15 @@ async function registerUser(req, res) {
             fullName: {firstName, lastName},
             ...(role ? { role } : {})
         })
+
+        await Promise.all([
+            publishToQueue('AUTH_NOTIFICATION.USER_CREATED', {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                fullName: user.fullName,
+            }),
+        ]);
 
         const token = jwt.sign({
             id: user._id,
